@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Little Herb Garden</title>
-  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="images/Logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
+  
 </head>
 <body>
   <header class="site-header">
-    <img class="logo" src="images/logo.svg" alt="" width="48" height="48">
+    <img class="logo" src="images/Logo.svg" alt="" width="48" height="48">
     <p class="site-name">The Little Herb Garden</p>
     <nav>
       <ul>
         <li><a href="#herbs">Herbs</a></li>
-        <li><a href="#visiting">Visit</a></li>
+        <li><a href="#visit">Visit</a></li>
         <li><a href="#about">About</a></li>
       </ul>
     </nav>
@@ -26,23 +27,18 @@
       <div>
         <h1>Herbs you can smell, taste and grow</h1>
         <p>A small garden with herbs for the kitchen, for tea and for the bees.
-          See <a href="#herbs">what grows here </a>.</p> <!-- missing closing tag for anchor element, added it -->
+          See <a href="#herbs">what grows here</a></p>
       </div>
-     <div class="hero-wrapper">
-  <img class="hero" src="images/garden.svg" alt="Two raised beds full of herbs, with a bee">
-  <p class="hero-description">"Two raised beds full of herbs, with a bee"</p>
-</div> <!-- the position of the text to be under the image by wrapping them in a container -->
-
+      <img class="hero" src="images/garden.svg" alt="Two raised beds full of herbs, with a bee">
     </section>
 
     <section id="herbs">
       <h2>What grows here</h2>
       <p class="count">Loading the herbs…</p>
-      <ul id="herbs-list" class="cards"></ul> <!-- should match by id in app.js -->
-
+      <ul id="herbs-list" class="cards"></ul>
     </section>
 
-    <section id="visiting"> <!-- should match href link in nav -->
+    <section id="visit">
       <h2>Visit</h2>
       <p>The garden is open every day from sunrise to sunset.
         Bring a friend, rub a leaf between your fingers, and leave the bees alone.</p>
