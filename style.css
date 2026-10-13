@@ -1,18 +1,21 @@
 /* The Little Herb Garden */
 
 :root {
-  --leaf: #2f6b3a;
-  --leaf-light: #e7f1e4;
-  --soil: #5b4636;
-  --paper: #fbfaf5;
-  --ink: #1f2420;
-  --line: #cfdccb;
+  --leaf: 
+#2f6b3a;
+  --leaf-light: 
+#e7f1e4;
+  --soil: 
+#5b4636;
+  --paper: 
+#fbfaf5;
+  --ink: 
+#1f2420;
+  --line: 
+#cfdccb;
 }
 
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -126,3 +129,105 @@ footer {
   text-align: center;
   color: var(--soil);
 }
+
+/* ===== Lavender page (added) ===== */
+
+:root {
+  --lavender: #7b5ea7;
+  --lavender-light: #efe9f7;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.facts div {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--lavender-light);
+}
+
+.facts dt {
+  font-size: 0.875rem;
+  color: var(--soil);
+}
+
+.facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.explorer {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (min-width: 40rem) {
+  .explorer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+#lavender-svg {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+
+.part {
+  cursor: pointer;
+}
+
+.part:hover,
+.part:focus {
+  opacity: 0.75;
+  outline: none;
+}
+
+.part.active {
+  filter: drop-shadow(0 0 5px var(--lavender));
+}
+
+.info {
+  min-height: 8rem;
+  padding: 1rem;
+  border-left: 4px solid var(--lavender);
+  border-radius: 0.5rem;
+  background: var(--lavender-light);
+}
+
+.info h3 {
+  margin-top: 0;
+  color: var(--lavender);
+}
+
+video {
+  width: 100%;
+  border-radius: 0.5rem;
+  background: black;
+}
+
+.uses {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.uses img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+@media (min-width: 40rem) {
+  .uses {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
