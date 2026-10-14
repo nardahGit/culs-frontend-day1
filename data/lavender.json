@@ -1,0 +1,53 @@
+{
+  "name": "Lavender",
+  "latin": "Lavandula angustifolia",
+  "family": "Lamiaceae (mint family)",
+  "description": "A silver-green shrub with purple flower spikes that smell calm, sweet and a little bit like soap.",
+  "quickFacts": [
+    { "label": "Latin name", "value": "Lavandula angustifolia" },
+    { "label": "Life cycle", "value": "Perennial" },
+    { "label": "Origin", "value": "Mediterranean" },
+    { "label": "Blooms", "value": "June to August" },
+    { "label": "Height", "value": "30 to 90 cm" },
+    { "label": "Likes", "value": "Full sun, dry soil" }
+  ],
+  "parts": [
+    {
+      "id": "flowers",
+      "name": "Flowers",
+      "text": "Many tiny purple flowers sit together on each spike. They bloom from June to August, and their scent comes from oil in tiny glands."
+    },
+    {
+      "id": "stem",
+      "name": "Stems",
+      "text": "Like other plants in the mint family, lavender has square stems. Near the bottom they turn brown and woody over the years."
+    },
+    {
+      "id": "leaves",
+      "name": "Leaves",
+      "text": "The narrow leaves look silver-green because they are covered in fine hairs. The hairs help the plant keep water in hot, dry weather."
+    },
+    {
+      "id": "roots",
+      "name": "Roots",
+      "text": "The roots need soil that drains fast. If they stay wet for long, they rot, which is the most common reason lavender dies."
+    },
+    {
+      "id": "bee",
+      "name": "Bee",
+      "text": "Lavender is full of nectar, so bees and butterflies visit it all summer. Avoid spraying the flowers so they stay safe."
+    }
+  ],
+  "uses": [
+    { "title": "Wardrobe", "text": "Dried flowers in small cloth sachets." },
+    { "title": "Kitchen", "text": "A pinch in shortbread, honey or tea (use culinary lavender)." },
+    { "title": "Garden", "text": "Bees and butterflies love it." },
+    { "title": "Oil", "text": "Essential oil is used in soaps and candles. It is for the skin and the air, not for eating." }
+  ],
+  "growingTips": [
+    "Give it sun.",
+    "Use light soil.",
+    "Water only a little.",
+    "Trim it lightly after flowering, but never cut into the old brown wood, because it will not regrow from there."
+  ]
+}

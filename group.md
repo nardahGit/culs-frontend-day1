@@ -18,4 +18,4 @@ I used Live server insted or terminal npx
 Day2 task ( add here your task and specify it like :name+task+specification)
 
 1.Nardah: managment of the group + test all commit (pull from my forked repo)+ verify workflow + push it to the main repo in final.
-2. (do the same description like this)
+2.  Magadeline Ndlovu: JSON data – data/lavender.json (quick facts, plant parts, uses, growing tips matching levandule.html) + JSON-LD block in levandule.html.
