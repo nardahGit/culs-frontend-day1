@@ -1,141 +1,244 @@
-/* The Little Herb Garden */
+/* The Little Herb Garden
+   Written in plain CSS, using utility-style design tokens
+   (spacing, radius, shadow scales) in the spirit of Tailwind / Bootstrap. */
 
 :root {
-  --leaf: 
-#2f6b3a;
-  --leaf-light: 
-#e7f1e4;
-  --soil: 
-#5b4636;
-  --paper: 
-#fbfaf5;
-  --ink: 
-#1f2420;
-  --line: 
-#cfdccb;
+  /* colours */
+  --leaf: #2f6b3a;
+  --leaf-dark: #1f4d29;
+  --leaf-light: #e7f1e4;
+  --soil: #5b4636;
+  --paper: #f6f8f1;
+  --ink: #1f2420;
+  --muted: #5d675f;
+  --line: #d6e2d1;
+  --lavender: #7b5ea7;
+  --lavender-dark: #5b4283;
+  --lavender-light: #efe9f7;
+
+  /* scales */
+  --radius-sm: 0.5rem;
+  --radius: 0.875rem;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(31, 36, 32, 0.08);
+  --shadow-md: 0 6px 16px rgba(31, 77, 41, 0.14);
+  --shadow-lg: 0 14px 30px rgba(31, 77, 41, 0.2);
 }
 
 * { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  line-height: 1.5;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
   color: var(--ink);
   background: var(--paper);
 }
 
-a {
-  color: var(--leaf);
+h1, h2, h3 { line-height: 1.2; }
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--leaf-dark);
 }
 
+h2 {
+  position: relative;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.75rem;
+  color: var(--leaf-dark);
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3rem;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--leaf);
+}
+
+a { color: var(--leaf); }
+a:hover { color: var(--leaf-dark); }
+
+/* ===== Header ===== */
+
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  background: var(--leaf);
+  gap: 0.75rem 1rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--leaf-dark), var(--leaf));
   color: white;
+  box-shadow: var(--shadow-md);
 }
 
-.site-header a {
-  color: white;
-}
+.site-header a { color: white; text-decoration: none; }
+
+.logo { width: 2.5rem; height: 2.5rem; }
 
 .site-name {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
-nav {
-  margin-left: auto;
-}
+nav { margin-left: auto; }
 
 nav ul {
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-main {
-  max-width: 60rem;
-  margin: 0 auto;
-  padding: 1.5rem;
+nav a {
+  display: block;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  transition: background 0.15s;
 }
 
-section {
-  margin-bottom: 2.5rem;
+nav a:hover,
+nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
 }
+
+/* ===== Layout ===== */
+
+main {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+section { margin-bottom: 3.5rem; scroll-margin-top: 5rem; }
 
 .intro {
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: center;
 }
 
 @media (min-width: 40rem) {
-  .intro {
-    grid-template-columns: 1fr 1fr;
-  }
+  .intro { grid-template-columns: 1fr 1fr; }
 }
+
+.intro p { font-size: 1.1rem; color: var(--muted); }
 
 .hero {
   width: 100%;
   height: auto;
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
 }
+
+.count { color: var(--muted); }
+
+/* ===== Herb cards ===== */
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* The card itself is the link. Colours are set here so the text is always visible. */
 .card {
-  padding: 1rem;
+  display: block;
+  height: 100%;
+  padding: 1.25rem;
   border: 1px solid var(--line);
-  border-radius: 0.5rem;
-  background: white;
+  border-top: 4px solid var(--leaf);
+  border-radius: var(--radius);
+  background: #ffffff;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--leaf);
+  color: var(--ink);
+  outline: none;
+}
+
+.card:focus-visible { outline: 3px solid var(--lavender); outline-offset: 2px; }
 
 .card h3 {
   margin: 0;
+  font-size: 1.35rem;
+  color: var(--leaf-dark);
 }
 
+.card:hover h3 { text-decoration: underline; }
+
 .latin {
-  margin: 0 0 0.5rem;
+  margin: 0.15rem 0 0.75rem;
   font-style: italic;
   color: var(--soil);
+}
+
+.use {
+  margin: 0 0 1rem;
+  color: var(--ink);
 }
 
 .life {
   display: inline-block;
   margin: 0;
-  padding: 0.1rem 0.6rem;
-  border-radius: 1rem;
+  padding: 0.15rem 0.75rem;
+  border-radius: var(--radius-pill);
   background: var(--leaf-light);
-  font-size: 0.875rem;
+  color: var(--leaf-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
 }
+
+/* ===== Footer ===== */
 
 footer {
-  padding: 1.5rem;
-  border-top: 1px solid var(--line);
+  padding: 2rem 1.5rem;
+  background: var(--leaf-dark);
   text-align: center;
-  color: var(--soil);
+  color: #dbe8d8;
 }
 
-/* ===== Lavender page (added) ===== */
+footer a { color: white; }
 
-:root {
-  --lavender: #7b5ea7;
-  --lavender-light: #efe9f7;
-}
+/* ===== Lavender page ===== */
+
+.lav-hero h1 { color: var(--lavender-dark); }
+
+.lav-hero .hero { box-shadow: 0 14px 30px rgba(91, 66, 131, 0.28); }
+
+.lavender-page h2 { color: var(--lavender-dark); }
+.lavender-page h2::after { background: var(--lavender); }
+.lavender-page a { color: var(--lavender-dark); }
+.lavender-page .site-header a { color: white; }
 
 .facts {
   display: grid;
@@ -145,19 +248,24 @@ footer {
 }
 
 .facts div {
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 1rem 1.1rem;
+  border-left: 4px solid var(--lavender);
+  border-radius: var(--radius-sm);
   background: var(--lavender-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .facts dt {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--soil);
 }
 
 .facts dd {
-  margin: 0;
+  margin: 0.15rem 0 0;
   font-weight: 700;
+  color: var(--lavender-dark);
 }
 
 .explorer {
@@ -167,9 +275,7 @@ footer {
 }
 
 @media (min-width: 40rem) {
-  .explorer {
-    grid-template-columns: 1fr 1fr;
-  }
+  .explorer { grid-template-columns: 1fr 1fr; }
 }
 
 #lavender-svg {
@@ -177,40 +283,34 @@ footer {
   max-width: 22rem;
   height: auto;
   border: 1px solid var(--line);
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
 }
 
-.part {
-  cursor: pointer;
-}
+.part { cursor: pointer; transition: opacity 0.15s; }
 
 .part:hover,
-.part:focus {
-  opacity: 0.75;
-  outline: none;
-}
+.part:focus { opacity: 0.75; outline: none; }
 
-.part.active {
-  filter: drop-shadow(0 0 5px var(--lavender));
-}
+.part.active { filter: drop-shadow(0 0 5px var(--lavender)); }
 
 .info {
   min-height: 8rem;
-  padding: 1rem;
-  border-left: 4px solid var(--lavender);
-  border-radius: 0.5rem;
+  padding: 1.25rem;
+  border-left: 5px solid var(--lavender);
+  border-radius: var(--radius-sm);
   background: var(--lavender-light);
+  box-shadow: var(--shadow-sm);
 }
 
-.info h3 {
-  margin-top: 0;
-  color: var(--lavender);
-}
+.info h3 { margin-top: 0; color: var(--lavender-dark); }
+.info p { margin-bottom: 0; }
 
 video {
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
   background: black;
+  box-shadow: var(--shadow-md);
 }
 
 .uses {
@@ -222,12 +322,34 @@ video {
 .uses img {
   width: 100%;
   height: auto;
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
 }
+
+.uses ul { margin: 0; padding-left: 1.2rem; }
+.uses li { margin-bottom: 0.75rem; }
+.uses li::marker { color: var(--lavender); }
 
 @media (min-width: 40rem) {
-  .uses {
-    grid-template-columns: 1fr 1fr;
-  }
+  .uses { grid-template-columns: 1fr 1fr; }
 }
 
+.tips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.tips li {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--lavender);
+  border-radius: var(--radius-sm);
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.tips strong { display: block; color: var(--lavender-dark); }

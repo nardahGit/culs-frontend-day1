@@ -24,15 +24,20 @@ function element(tag, className, text) {
 }
 
 function card(herb) {
-  const item = element("li", "card", "");
+  const item = element("li", "", "");
 
-  item.append(
+  // The whole card is one link. Only lavender has a page for now.
+  const link = element("a", "card", "");
+  link.href = herb.name === "Lavender" ? "levandule.html" : "#";
+
+  link.append(
     element("h3", "name", herb.name),
     element("p", "latin", herb.latin),
     element("p", "use", herb.use),
     element("p", "life", herb.life)
   );
 
+  item.append(link);
   return item;
 }
 
@@ -70,5 +75,35 @@ if (tipButton && lavenderTip) {
     tipButton.innerHTML = isHidden
       ? 'Hide growing tip <span aria-hidden="true">↑</span>'
       : 'Reveal a growing tip <span aria-hidden="true">✿</span>';
+  });
+}
+
+// Lavender plant explorer: show a story for the part that was chosen.
+const parts = {
+  flowers: ["Flowers", "The purple spikes open from June to August. They hold the scent and the oil, and bees visit them all day."],
+  stem: ["Stems", "Thin, stiff and square-ish. Cut them just as the first buds open to get the best scent for drying."],
+  leaves: ["Leaves", "Narrow, silver-green and slightly hairy. The hairs keep water in, which is why lavender survives dry summers."],
+  roots: ["Roots", "Deep and woody. They need soil that drains well; wet feet are the quickest way to lose a lavender plant."],
+  bee: ["Bee", "Lavender is a favourite of bees. One bush can feed hundreds of them in a summer afternoon."]
+};
+
+const info = document.querySelector("#lavender-info");
+
+if (info) {
+  document.querySelectorAll(".part").forEach((part) => {
+    const choose = () => {
+      const [title, text] = parts[part.dataset.part];
+      document.querySelectorAll(".part.active").forEach((p) => p.classList.remove("active"));
+      part.classList.add("active");
+      info.replaceChildren(element("h3", "", title), element("p", "", text));
+    };
+
+    part.addEventListener("click", choose);
+    part.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        choose();
+      }
+    });
   });
 }
