@@ -1,7 +1,7 @@
 
 Group Name: Herbs-Lavender
 Participant: 1. Fiderana Nardah Mamelphina
-            2. (add here your name)
+            2.  Magadeline Ndlovu
 
 
 
