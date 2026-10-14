@@ -1,9 +1,9 @@
 
 Group Name: Herbs-Lavender
-Participant: 1. Fiderana Nardah Mamelphina
-            2.  Magadeline Ndlovu
-            3.Beqa Davitashvili
-            4. 
+Participant:1. Fiderana Nardah Mamelphina
+            2. Magadeline Ndlovu
+            3. Beqa Davitashvili
+            4. Monika Tasheva
 
 
 
