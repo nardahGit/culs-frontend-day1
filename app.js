@@ -28,7 +28,7 @@ function card(herb) {
 
   // The whole card is one link. Only lavender has a page for now.
   const link = element("a", "card", "");
-  link.href = herb.name === "Lavender" ? "levandule.html" : "#";
+     link.href = herb.name === "Lavender" ? "levandule.html" : `#${herb.id}`;
 
   link.append(
     element("h3", "name", herb.name),
@@ -107,3 +107,23 @@ if (info) {
     });
   });
 }
+
+
+// Day 3: read which herb is in the address, e.g. index.html#basil → "basil"
+function herbFromAddress() {
+  return location.hash.slice(1).toLowerCase();
+}
+
+function onAddressChange() {
+  const id = herbFromAddress();
+
+  // These are normal sections of the start page, not herbs.
+  if (["", "herbs", "visit", "about"].includes(id)) {
+    return;
+  }
+
+  console.log("Herb chosen:", id);
+}
+
+window.addEventListener("hashchange", onAddressChange);
+onAddressChange();
