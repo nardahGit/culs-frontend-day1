@@ -1,15 +1,71 @@
 {
+  "id": "lavender",
   "name": "Lavender",
   "latin": "Lavandula angustifolia",
   "family": "Lamiaceae (mint family)",
+  "life": "perennial",
   "description": "A silver-green shrub with purple flower spikes that smell calm, sweet and a little bit like soap.",
+  "image": {
+    "src": "images/lavender-field.jpg",
+    "alt": "A field of lavender in bloom, with purple rows reaching the horizon"
+  },
   "quickFacts": [
-    { "label": "Latin name", "value": "Lavandula angustifolia" },
-    { "label": "Life cycle", "value": "Perennial" },
-    { "label": "Origin", "value": "Mediterranean" },
-    { "label": "Blooms", "value": "June to August" },
-    { "label": "Height", "value": "30 to 90 cm" },
-    { "label": "Likes", "value": "Full sun, dry soil" }
+    {
+      "label": "Life cycle",
+      "value": "Perennial"
+    },
+    {
+      "label": "Origin",
+      "value": "Mediterranean"
+    },
+    {
+      "label": "Blooms",
+      "value": "June to August"
+    },
+    {
+      "label": "Height",
+      "value": "30 to 90 cm"
+    },
+    {
+      "label": "Likes",
+      "value": "Full sun, dry soil"
+    }
+  ],
+  "uses": [
+    {
+      "title": "Wardrobe",
+      "text": "Dried flowers in small cloth sachets."
+    },
+    {
+      "title": "Kitchen",
+      "text": "A pinch in shortbread, honey or tea (use culinary lavender)."
+    },
+    {
+      "title": "Garden",
+      "text": "Bees and butterflies love it."
+    },
+    {
+      "title": "Oil",
+      "text": "Essential oil is used in soaps and candles. It is for the skin and the air, not for eating."
+    }
+  ],
+  "growingTips": [
+    {
+      "title": "Sun",
+      "text": "Give it at least six hours of full sun a day."
+    },
+    {
+      "title": "Soil",
+      "text": "Light, sandy and well drained. Wet soil rots the roots."
+    },
+    {
+      "title": "Water",
+      "text": "Little and rarely, once the plant is established."
+    },
+    {
+      "title": "Pruning",
+      "text": "Trim lightly after flowering, but never cut into the old brown wood, because it will not regrow from there."
+    }
   ],
   "parts": [
     {
@@ -37,17 +93,5 @@
       "name": "Bee",
       "text": "Lavender is full of nectar, so bees and butterflies visit it all summer. Avoid spraying the flowers so they stay safe."
     }
-  ],
-  "uses": [
-    { "title": "Wardrobe", "text": "Dried flowers in small cloth sachets." },
-    { "title": "Kitchen", "text": "A pinch in shortbread, honey or tea (use culinary lavender)." },
-    { "title": "Garden", "text": "Bees and butterflies love it." },
-    { "title": "Oil", "text": "Essential oil is used in soaps and candles. It is for the skin and the air, not for eating." }
-  ],
-  "growingTips": [
-    "Give it sun.",
-    "Use light soil.",
-    "Water only a little.",
-    "Trim it lightly after flowering, but never cut into the old brown wood, because it will not regrow from there."
   ]
 }
