@@ -114,15 +114,82 @@ function herbFromAddress() {
   return location.hash.slice(1).toLowerCase();
 }
 
+// The place on the page where a herb (or a message) is shown.
+function herbView() {
+  let view = document.querySelector("#herb-view");
+
+  if (!view) {
+    view = document.createElement("section");
+    view.id = "herb-view";
+    view.tabIndex = -1;                      // so keyboard focus can move here
+    view.setAttribute("aria-live", "polite"); // screen readers announce changes
+    document.querySelector("main").prepend(view);
+  }
+
+  return view;
+}
+
+// Show a friendly message instead of a herb.
+function showMessage(text) {
+  const view = herbView();
+  view.replaceChildren(element("p", "message", text));
+  view.focus();
+}
+
+// TEMPORARY: the build team replaces this with the full herb page.
+function showHerb(herb) {
+  const view = herbView();
+  view.replaceChildren(
+    element("h2", "", herb.name),
+    element("p", "latin", herb.latin),
+    element("p", "", herb.description)
+  );
+  view.focus();
+}
+
+// Load data/<id>.json and cope when something is missing.
+async function loadHerb(id) {
+  let herbs;
+
+  try {
+    herbs = await loadHerbs();
+  } catch (error) {
+    showMessage("The garden could not be loaded. Please open the site through a web server (npx serve), not by double-clicking the file.");
+    return;
+  }
+
+  // 1. Unknown herb: it is not in data/herbs.json
+  if (!herbs.some((herb) => herb.id === id)) {
+    showMessage(`We don't grow "${id}" in this garden (yet).`);
+    return;
+  }
+
+  try {
+    const response = await fetch(`data/${id}.json`);
+
+    // 2. Missing file: the herb exists, but its JSON file does not
+    if (!response.ok) {
+      showMessage(`Sorry, the page for ${id} is missing.`);
+      return;
+    }
+
+    showHerb(await response.json());
+  } catch (error) {
+    // 3. No server (or no internet)
+    showMessage("The herb could not be loaded. Please check that the web server is running.");
+  }
+}
+
 function onAddressChange() {
   const id = herbFromAddress();
 
   // These are normal sections of the start page, not herbs.
   if (["", "herbs", "visit", "about"].includes(id)) {
+    document.querySelector("#herb-view")?.remove();
     return;
   }
 
-  console.log("Herb chosen:", id);
+  loadHerb(id);
 }
 
 window.addEventListener("hashchange", onAddressChange);
