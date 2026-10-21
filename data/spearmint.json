@@ -5,6 +5,7 @@
   "family": "Lamiaceae (mint family)",
   "life": "perennial",
   "description": "A fresh, cool-smelling herb with bright-green toothed leaves. It grows fast and spreads everywhere if you let it.",
+    "image": { "src": "images/spearmint.jpg", "alt": "Fresh spearmint leaves with jagged edges" },
   "quickFacts": [
     {
       "label": "Life cycle",

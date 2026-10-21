@@ -5,6 +5,7 @@
   "family": "Lamiaceae (mint family)",
   "life": "perennial",
   "description": "A tiny, low shrub with small grey-green leaves and a warm, earthy smell. Its pink flowers are full of bees.",
+    "image": { "src": "images/thyme.jpg", "alt": "A low bush of thyme with tiny leaves" },
   "quickFacts": [
     {
       "label": "Life cycle",

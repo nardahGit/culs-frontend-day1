@@ -5,6 +5,7 @@
   "family": "Amaryllidaceae (onion family)",
   "life": "perennial",
   "description": "Thin, hollow, grass-like leaves with a mild onion taste. Round purple flowers appear in early summer.",
+    "image": { "src": "images/chives.jpg", "alt": "Green chives with round purple flowers" },
   "quickFacts": [
     {
       "label": "Life cycle",
