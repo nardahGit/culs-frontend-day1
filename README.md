@@ -64,6 +64,34 @@ data/         the herbs, as JSON
 images/       the logo and a picture
 ```
 
+## Herb details and favorites
+
+On the home page, select any herb card (or open `index.html#<id>`, for example
+`index.html#basil`) to see its details in a dialog. The dialog shows quick
+facts, uses, growing tips, and plant parts when provided by the herb's JSON
+file. Close it with the × button or the Escape key.
+
+Every herb can be added to **My favorites**. Favorites are saved in the
+browser (`localStorage`).
+
+## React version
+
+The `react/` folder contains a React version of the herb browser (search by
+common or Latin name, favorites, herb details). It reads the same
+`data/<id>.json` files.
+
+The built version is in `herb-profiles/` and works with `npx serve` and on
+GitHub Pages without any build step: open `herb-profiles/react/`.
+
+To change the React code and rebuild it:
+
+```sh
+cd react
+npm install
+npm run dev     # develop: open /react/ at the address Vite prints
+npm run build   # writes the finished site to ../herb-profiles
+```
+
 ## Herb data format
 
 Every herb has its own file in `data/`, named after its id: `data/<id>.json`
@@ -87,6 +115,7 @@ Every herb file uses the same format:
 | `growingTips` | list of `{ "title", "text" }` | yes | how to grow it |
 | `image` | `{ "src", "alt" }` | no | a photo; only herbs with a photo have it |
 | `parts` | list of `{ "id", "name", "text" }` | no | plant parts for the explorer drawing (lavender only) |
+| `video` | `{ "src", "caption" }` | no | a short video (lavender only) |
 
 Example (shortened):
 

@@ -9,6 +9,10 @@
     "src": "images/lavender-field.jpg",
     "alt": "A field of lavender in bloom, with purple rows reaching the horizon"
   },
+  "video": {
+    "src": "videos/lavender.mp4",
+    "caption": "Lavender in 3 minutes"
+  },
   "quickFacts": [
     {
       "label": "Life cycle",

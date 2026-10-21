@@ -193,6 +193,170 @@ section { margin-bottom: 3.5rem; scroll-margin-top: 5rem; }
   color: var(--leaf-dark);
 }
 
+#herbs-list > li,
+#favorites-list > li {
+  display: flex;
+  flex-direction: column;
+}
+
+#herbs-list .card,
+#favorites-list .card {
+  height: auto;
+  flex: 1;
+}
+
+.favorite-button {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--lavender-dark);
+  border-radius: var(--radius-pill);
+  background: white;
+  color: var(--lavender-dark);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.favorite-button:hover,
+.favorite-button:focus-visible {
+  background: var(--lavender-light);
+  outline: 3px solid var(--lavender);
+  outline-offset: 2px;
+}
+
+.herb-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(20, 27, 21, 0.72);
+}
+
+.herb-dialog-backdrop[hidden] { display: none; }
+
+.herb-dialog {
+  --herb-accent: var(--lavender);
+  --herb-dark: var(--lavender-dark);
+  --herb-light: var(--lavender-light);
+  position: relative;
+  width: min(100%, 56rem);
+  max-height: min(90vh, 56rem);
+  overflow: auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--herb-accent);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow-lg);
+}
+
+.herb-dialog[data-herb-theme="basil"] {
+  --herb-accent: #4b8b4b;
+  --herb-dark: #285b32;
+  --herb-light: #e8f3e6;
+}
+
+.herb-dialog[data-herb-theme="spearmint"] {
+  --herb-accent: #4b9b83;
+  --herb-dark: #286b59;
+  --herb-light: #e5f4ef;
+}
+
+.herb-dialog[data-herb-theme="rosemary"] {
+  --herb-accent: #78834a;
+  --herb-dark: #4f5b2e;
+  --herb-light: #f0f2df;
+}
+
+.herb-dialog[data-herb-theme="thyme"] {
+  --herb-accent: #83904d;
+  --herb-dark: #59642f;
+  --herb-light: #f1f3df;
+}
+
+.herb-dialog[data-herb-theme="sage"] {
+  --herb-accent: #7d9878;
+  --herb-dark: #4d6b4a;
+  --herb-light: #edf3e9;
+}
+
+.herb-dialog[data-herb-theme="chamomile"] {
+  --herb-accent: #d5a900;
+  --herb-dark: #775c00;
+  --herb-light: #fff6cf;
+}
+
+.herb-dialog[data-herb-theme="chives"] {
+  --herb-accent: #8b65a9;
+  --herb-dark: #5c3d78;
+  --herb-light: #f1e9f8;
+}
+
+.herb-dialog > #herb-dialog-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+
+.herb-dialog > #herb-dialog-content > h2 {
+  padding-right: 3rem;
+  color: var(--herb-dark);
+}
+
+.herb-dialog > #herb-dialog-content > h2::after { background: var(--herb-accent); }
+.herb-dialog .herb-dialog-description { color: var(--muted); }
+.herb-dialog .herb-dialog-section { margin: 2rem 0; }
+
+.herb-dialog .herb-dialog-section h3 {
+  margin: 0 0 0.9rem;
+  color: var(--herb-dark);
+  font-size: 1.35rem;
+}
+
+.herb-dialog .facts { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+.herb-dialog .tips { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+.herb-dialog .facts div { border-left-color: var(--herb-accent); background: var(--herb-light); }
+.herb-dialog .facts dd { color: var(--herb-dark); }
+.herb-dialog .tips li { border-top-color: var(--herb-accent); }
+.herb-dialog .tips strong,
+.herb-dialog .react-list li::marker { color: var(--herb-dark); }
+.herb-dialog .favorite-button { border-color: var(--herb-dark); color: var(--herb-dark); }
+.herb-dialog .favorite-button:hover,
+.herb-dialog .favorite-button:focus-visible { background: var(--herb-light); outline-color: var(--herb-accent); }
+.herb-dialog a { color: var(--herb-dark); }
+.herb-dialog .modal-close:focus-visible { outline-color: var(--herb-accent); }
+
+.herb-dialog-image {
+  width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.modal-close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:focus-visible {
+  outline: 3px solid var(--lavender);
+  outline-offset: 2px;
+}
+
+.modal-open { overflow: hidden; }
+
 .card:hover h3 { text-decoration: underline; }
 
 .latin {
@@ -353,3 +517,20 @@ video {
 }
 
 .tips strong { display: block; color: var(--lavender-dark); }
+
+/* Lavender video inside the herb dialog */
+.herb-dialog-video {
+  margin: 1rem 0;
+}
+
+.herb-dialog-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.herb-dialog-video figcaption {
+  font-size: 0.9rem;
+  text-align: center;
+}
