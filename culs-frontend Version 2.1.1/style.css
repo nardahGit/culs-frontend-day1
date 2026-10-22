@@ -1,0 +1,626 @@
+/* The Little Herb Garden
+   Written in plain CSS, using utility-style design tokens
+   (spacing, radius, shadow scales) in the spirit of Tailwind / Bootstrap. */
+
+:root {
+  /* colours */
+  --leaf: #2f6b3a;
+  --leaf-dark: #1f4d29;
+  --leaf-light: #e7f1e4;
+  --soil: #5b4636;
+  --paper: #f6f8f1;
+  --ink: #1f2420;
+  --muted: #5d675f;
+  --line: #d6e2d1;
+  --lavender: #7b5ea7;
+  --lavender-dark: #5b4283;
+  --lavender-light: #efe9f7;
+
+  /* scales */
+  --radius-sm: 0.5rem;
+  --radius: 0.875rem;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(31, 36, 32, 0.08);
+  --shadow-md: 0 6px 16px rgba(31, 77, 41, 0.14);
+  --shadow-lg: 0 14px 30px rgba(31, 77, 41, 0.2);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+h1, h2, h3 { line-height: 1.2; }
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--leaf-dark);
+}
+
+h2 {
+  position: relative;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.75rem;
+  color: var(--leaf-dark);
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3rem;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--leaf);
+}
+
+a { color: var(--leaf); }
+a:hover { color: var(--leaf-dark); }
+
+/* ===== Header ===== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--leaf-dark), var(--leaf));
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.site-header a { color: white; text-decoration: none; }
+
+.logo { width: 2.5rem; height: 2.5rem; }
+
+.site-name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+nav { margin-left: auto; }
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav a {
+  display: block;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.menu-toggle {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 2px;
+  margin: 0.25rem 0;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+}
+
+.menu-toggle:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
+}
+
+/* ===== Layout ===== */
+
+main {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+section { margin-bottom: 3.5rem; scroll-margin-top: 5rem; }
+
+.intro {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 40rem) {
+  .intro { grid-template-columns: 1fr 1fr; }
+}
+
+.intro p { font-size: 1.1rem; color: var(--muted); }
+
+.hero {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.count { color: var(--muted); }
+
+@media (max-width: 64rem) {
+  .site-header {
+    column-gap: 0.75rem;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav {
+    display: none;
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  nav.is-open { display: block; }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.5rem;
+  }
+
+  nav a { padding: 0.65rem 0.85rem; }
+}
+
+/* ===== Herb cards ===== */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The card itself is the link. Colours are set here so the text is always visible. */
+.card {
+  display: block;
+  height: 100%;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--leaf);
+  border-radius: var(--radius);
+  background: #ffffff;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--leaf);
+  color: var(--ink);
+  outline: none;
+}
+
+.card:focus-visible { outline: 3px solid var(--lavender); outline-offset: 2px; }
+
+.card h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--leaf-dark);
+}
+
+#herbs-list > li,
+#favorites-list > li {
+  display: flex;
+  flex-direction: column;
+}
+
+#herbs-list .card,
+#favorites-list .card {
+  height: auto;
+  flex: 1;
+}
+
+.favorite-button {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--lavender-dark);
+  border-radius: var(--radius-pill);
+  background: white;
+  color: var(--lavender-dark);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.favorite-button:hover,
+.favorite-button:focus-visible {
+  background: var(--lavender-light);
+  outline: 3px solid var(--lavender);
+  outline-offset: 2px;
+}
+
+.herb-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(20, 27, 21, 0.72);
+}
+
+.herb-dialog-backdrop[hidden] { display: none; }
+
+.herb-dialog {
+  --herb-accent: var(--lavender);
+  --herb-dark: var(--lavender-dark);
+  --herb-light: var(--lavender-light);
+  position: relative;
+  width: min(100%, 56rem);
+  max-height: min(90vh, 56rem);
+  overflow: auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--herb-accent);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow-lg);
+}
+
+.herb-dialog[data-herb-theme="basil"] {
+  --herb-accent: #4b8b4b;
+  --herb-dark: #285b32;
+  --herb-light: #e8f3e6;
+}
+
+.herb-dialog[data-herb-theme="spearmint"] {
+  --herb-accent: #4b9b83;
+  --herb-dark: #286b59;
+  --herb-light: #e5f4ef;
+}
+
+.herb-dialog[data-herb-theme="rosemary"] {
+  --herb-accent: #78834a;
+  --herb-dark: #4f5b2e;
+  --herb-light: #f0f2df;
+}
+
+.herb-dialog[data-herb-theme="thyme"] {
+  --herb-accent: #83904d;
+  --herb-dark: #59642f;
+  --herb-light: #f1f3df;
+}
+
+.herb-dialog[data-herb-theme="sage"] {
+  --herb-accent: #7d9878;
+  --herb-dark: #4d6b4a;
+  --herb-light: #edf3e9;
+}
+
+.herb-dialog[data-herb-theme="chamomile"] {
+  --herb-accent: #d5a900;
+  --herb-dark: #775c00;
+  --herb-light: #fff6cf;
+}
+
+.herb-dialog[data-herb-theme="chives"] {
+  --herb-accent: #8b65a9;
+  --herb-dark: #5c3d78;
+  --herb-light: #f1e9f8;
+}
+
+.herb-dialog > #herb-dialog-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+
+.herb-dialog > #herb-dialog-content > h2 {
+  padding-right: 3rem;
+  color: var(--herb-dark);
+}
+
+.herb-dialog > #herb-dialog-content > h2::after { background: var(--herb-accent); }
+.herb-dialog .herb-dialog-description { color: var(--muted); }
+.herb-dialog .herb-dialog-section { margin: 2rem 0; }
+
+.herb-dialog .herb-dialog-section h3 {
+  margin: 0 0 0.9rem;
+  color: var(--herb-dark);
+  font-size: 1.35rem;
+}
+
+.herb-dialog .facts { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+.herb-dialog .tips { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+.herb-dialog .facts div { border-left-color: var(--herb-accent); background: var(--herb-light); }
+.herb-dialog .facts dd { color: var(--herb-dark); }
+.herb-dialog .tips li { border-top-color: var(--herb-accent); }
+.herb-dialog .tips strong,
+.herb-dialog .react-list li::marker { color: var(--herb-dark); }
+.herb-dialog .favorite-button { border-color: var(--herb-dark); color: var(--herb-dark); }
+.herb-dialog .favorite-button:hover,
+.herb-dialog .favorite-button:focus-visible { background: var(--herb-light); outline-color: var(--herb-accent); }
+.herb-dialog a { color: var(--herb-dark); }
+.herb-dialog .modal-close:focus-visible { outline-color: var(--herb-accent); }
+
+.herb-dialog-image {
+  width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.modal-close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:focus-visible {
+  outline: 3px solid var(--lavender);
+  outline-offset: 2px;
+}
+
+.modal-open { overflow: hidden; }
+
+.card:hover h3 { text-decoration: underline; }
+
+.latin {
+  margin: 0.15rem 0 0.75rem;
+  font-style: italic;
+  color: var(--soil);
+}
+
+.use {
+  margin: 0 0 1rem;
+  color: var(--ink);
+}
+
+.life {
+  display: inline-block;
+  margin: 0;
+  padding: 0.15rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--leaf-light);
+  color: var(--leaf-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* ===== Footer ===== */
+
+footer {
+  padding: 2rem 1.5rem;
+  background: var(--leaf-dark);
+  text-align: center;
+  color: #dbe8d8;
+}
+
+footer a { color: white; }
+
+/* ===== Lavender page ===== */
+
+.lav-hero h1 { color: var(--lavender-dark); }
+
+.lav-hero .hero { box-shadow: 0 14px 30px rgba(91, 66, 131, 0.28); }
+
+.lavender-page h2 { color: var(--lavender-dark); }
+.lavender-page h2::after { background: var(--lavender); }
+.lavender-page a { color: var(--lavender-dark); }
+.lavender-page .site-header a { color: white; }
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.facts div {
+  padding: 1rem 1.1rem;
+  border-left: 4px solid var(--lavender);
+  border-radius: var(--radius-sm);
+  background: var(--lavender-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.facts dt {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--soil);
+}
+
+.facts dd {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+  color: var(--lavender-dark);
+}
+
+.explorer {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (min-width: 40rem) {
+  .explorer { grid-template-columns: 1fr 1fr; }
+}
+
+#lavender-svg {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.part { cursor: pointer; transition: opacity 0.15s; }
+
+.part:hover,
+.part:focus { opacity: 0.75; outline: none; }
+
+.part.active { filter: drop-shadow(0 0 5px var(--lavender)); }
+
+.info {
+  min-height: 8rem;
+  padding: 1.25rem;
+  border-left: 5px solid var(--lavender);
+  border-radius: var(--radius-sm);
+  background: var(--lavender-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.info h3 { margin-top: 0; color: var(--lavender-dark); }
+.info p { margin-bottom: 0; }
+
+video {
+  width: 100%;
+  border-radius: var(--radius);
+  background: black;
+  box-shadow: var(--shadow-md);
+}
+
+.uses {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.uses img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.uses ul { margin: 0; padding-left: 1.2rem; }
+.uses li { margin-bottom: 0.75rem; }
+.uses li::marker { color: var(--lavender); }
+
+@media (min-width: 40rem) {
+  .uses { grid-template-columns: 1fr 1fr; }
+}
+
+.tips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.tips li {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--lavender);
+  border-radius: var(--radius-sm);
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.tips strong { display: block; color: var(--lavender-dark); }
+
+/* Lavender video inside the herb dialog */
+.herb-dialog-video {
+  margin: 1rem 0;
+}
+
+.herb-dialog-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.herb-dialog-video figcaption {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ===== Search box ===== */
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.search label {
+  font-weight: 600;
+}
+
+.search input {
+  flex: 1 1 16rem;
+  max-width: 24rem;
+  padding: 0.6rem 0.9rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-pill);
+}
+
+.search input:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 2px;
+  border-color: var(--leaf);
+}
+
+/* ===== Wikipedia summary in the herb dialog ===== */
+
+.wiki-summary {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
