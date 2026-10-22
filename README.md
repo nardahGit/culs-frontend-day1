@@ -11,7 +11,7 @@ good for and how to grow them. Made by group **Herbs-Lavender** for
 | Course requirement | How this project meets it |
 |---|---|
 | Meaningful content | 8 herbs (basil, spearmint, rosemary, thyme, lavender, sage, chamomile, chives), each with a description, 5 quick facts, uses, growing tips and a photo; lavender also has plant parts and a video |
-| Intentional visual design | one colour theme per herb, responsive layout (CSS grid and flexbox), visible keyboard focus |
+| Intentional visual design | one colour theme per herb, responsive layout (CSS grid and flexbox), a burger menu (☰) on small screens, visible keyboard focus |
 | Interaction | a search box filters the herbs while you type; All / Annual / Perennial filter buttons; a "🎲 Herb of the day" button opens the same herb for everyone that day; herb cards open a details dialog; close with × or Escape; favorites button |
 | Application state | the search text, the chosen filter and the list of matching herbs; the open herb lives in the address (`index.html#basil`); favorites are kept in a JavaScript array and saved in `localStorage` |
 | Data | one JSON file per herb in `data/`, one shared format (see below) |
@@ -50,6 +50,7 @@ app.js           rendering, search, #hash router, fetch, dialog, favorites, Wiki
 community.js     shared visit and like counts (online counter service)
 interest.js      "I'm interested" pop-up form, sent to Formspree
 extras.js        All / Annual / Perennial filter and "Herb of the day"
+menu.js          burger menu (☰) for small screens
 data/            herbs.json (the list) + one <id>.json per herb
 images/          logo and herb photos
 videos/          lavender video
@@ -64,7 +65,7 @@ group.md         team members and who did what
 |---|---|
 | Fiderana Nardah Mamelphina | group management, testing and merging, site restyle, GitHub Pages |
 | Magadeline Ndlovu | JSON data for all herbs and its format, photos, #hash router with `fetch()` and error messages, integration of the dialog and React version |
-| Beqa Davitashvili | lavender page (day 2), herb details dialog, favorites, React version |
+| Beqa Davitashvili | lavender page (day 2), herb details dialog, favorites, React version, burger menu |
 | Monika Tasheva | CSS design |
 
 ## Herb details and favorites

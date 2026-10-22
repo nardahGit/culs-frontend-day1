@@ -10,20 +10,28 @@
   <script src="community.js" defer></script>
   <script src="interest.js" defer></script>
   <script src="extras.js" defer></script>
+  <script src="menu.js" defer></script>
   
 </head>
 <body>
   <header class="site-header">
     <img class="logo" src="images/Logo.svg" alt="" width="48" height="48">
     <p class="site-name">The Little Herb Garden</p>
-<nav>
-  <ul>
-   <li><a href="#herbs">Herbs</a></li>
+    <button class="menu-toggle" type="button" aria-label="Open navigation menu"
+            aria-expanded="false" aria-controls="site-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="site-navigation">
+      <ul>
+        <li><a href="#herbs">Herbs</a></li>
         <li><a href="herb-profiles/react/">Herb profiles (React)</a></li>
         <li><a href="#favorites">Favorites</a></li>
         <li><a href="#visit">Visit</a></li>
-        <li><a href="#about">About</a></li>  </ul>
-</nav>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>

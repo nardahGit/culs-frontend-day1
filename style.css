@@ -801,3 +801,57 @@ footer .community-count {
 .herb-of-the-day {
   margin-top: 0.5rem;
 }
+
+/* ===== Burger menu for small screens (by Beqa) ===== */
+
+.menu-toggle {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 2px;
+  margin: 0.25rem 0;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+}
+
+.menu-toggle:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
+}
+
+@media (max-width: 64rem) {
+  .site-header {
+    column-gap: 0.75rem;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav {
+    display: none;
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  nav.is-open { display: block; }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.5rem;
+  }
+
+  nav a { padding: 0.65rem 0.85rem; }
+}
