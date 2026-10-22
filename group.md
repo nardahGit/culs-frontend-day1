@@ -26,7 +26,7 @@ Day2 task ( add here your task and specify it like :name+task+specification)
 
 Day3 + final project tasks (name + task + specification)
 
-1. Fiderana Nardah Mamelphina: group management, site restyle, testing and merging, final push, GitHub Pages.
-2. Magadeline Ndlovu: JSON data for all 8 herbs (data/<id>.json, format documented in README) + photos; JS router (#hash, hashchange, fetch(), friendly errors for unknown herb / missing file / no server); herb search; Wikipedia summary; shared likes and visits (community.js); "I'm interested" pop-up form (interest.js); herb of the day + annual/perennial filter (extras.js); unpacked and connected Beqa's React version; README.
+1. Fiderana Nardah Mamelphina: group leader – group management and task assignment, Day 1 bug fixes, site restyle, testing and merging, final push, GitHub Pages; "I'm interested" herb quiz (interest.js, built from each herb's JSON data, score + congratulations / try again); README.
+2. Magadeline Ndlovu: JSON data for all 8 herbs (data/<id>.json, format documented in README) + photos; JS router (#hash, hashchange, fetch(), friendly errors for unknown herb / missing file / no server); herb search; Wikipedia summary; shared likes and visits (community.js); first version of the "I'm interested" pop-up form (interest.js, later replaced by the quiz); herb of the day + annual/perennial filter (extras.js); unpacked and connected Beqa's React version; README.
 3. Beqa Davitashvili: herb details dialog, favorites, React version (react/), burger menu (menu.js).
 4. Monika Tasheva: CSS design, colour theme for every herb (theme in data/<id>.json), close-button design of the React herb pop-up.

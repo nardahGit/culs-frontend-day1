@@ -1,33 +1,33 @@
-// "I'm interested" button in the herb dialog. It opens a small pop-up
-// window with a form (name, email, consent).
-// The name and email are sent privately (POST) to Formspree, a free form
-// service; they arrive in the group's inbox and are never shown on the site.
+// "I'm interested" button in the herb dialog. It opens a pop-up with a short
+// quiz about that herb. The questions are made from the herb's own JSON file
+// (data/<id>.json), so when the data changes, the quiz changes with it.
+// At the end the visitor sees a score and a message (congratulations, or try again).
 //
-// This file only ADDS the form. If sending fails, the user gets a friendly
-// message and the rest of the site works as before.
+// This file only ADDS the quiz. If the data cannot be loaded, the visitor gets
+// a friendly message and the rest of the site works as before.
 
-// Paste the group's Formspree form ID here (it looks like "xyzabcd").
-const formspreeId = "YOUR_FORM_ID";
+const quizKey = "little-herb-garden-quiz";
+const questionsPerQuiz = 5;
 
-const interestKey = "little-herb-garden-interest";
-
-// Which herbs this browser already signed up for: { basil: "Anna", ... }
-function readSignups() {
+// Best score per herb in this browser: { basil: 4, ... }
+function readScores() {
   try {
-    const saved = JSON.parse(localStorage.getItem(interestKey) || "{}");
+    const saved = JSON.parse(localStorage.getItem(quizKey) || "{}");
     return saved && typeof saved === "object" ? saved : {};
   } catch (error) {
     return {};
   }
 }
 
-function saveSignup(herbId, name) {
+function saveScore(herbId, score) {
   try {
-    const signups = readSignups();
-    signups[herbId] = name;
-    localStorage.setItem(interestKey, JSON.stringify(signups));
+    const scores = readScores();
+    if (!(scores[herbId] >= score)) {
+      scores[herbId] = score;
+      localStorage.setItem(quizKey, JSON.stringify(scores));
+    }
   } catch (error) {
-    // Storage blocked: the signup was still sent, we just can't remember it.
+    // Storage blocked: the quiz still works, we just can't remember the score.
   }
 }
 
@@ -39,76 +39,134 @@ function make(tag, className, text) {
   return node;
 }
 
-function thanks(name, herbName) {
-  return make("p", "interest-thanks", `✓ Thanks, ${name}! You're on the list for ${herbName}.`);
+function shuffle(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 }
 
-// One labelled field with a place for its error message.
-function field(id, labelText, type) {
-  const wrapper = make("div", "interest-field");
-  const label = make("label", "", labelText);
-  label.htmlFor = id;
-  const input = document.createElement("input");
-  input.id = id;
-  input.type = type;
-  input.autocomplete = type === "email" ? "email" : "name";
-  const error = make("p", "interest-error");
-  error.id = `${id}-error`;
-  input.setAttribute("aria-describedby", error.id);
-  wrapper.append(label, input, error);
-  return { wrapper, input, error };
+// ----- Data: load every herb once, then build questions from it -----
+
+let allHerbsPromise = null;
+
+function loadAllHerbs() {
+  if (!allHerbsPromise) {
+    allHerbsPromise = fetch("data/herbs.json")
+      .then((response) => {
+        if (!response.ok) throw new Error(`herbs.json: ${response.status}`);
+        return response.json();
+      })
+      .then((list) =>
+        Promise.all(
+          list.map((item) =>
+            fetch(`data/${item.id}.json`).then((response) => {
+              if (!response.ok) throw new Error(`${item.id}.json: ${response.status}`);
+              return response.json();
+            })
+          )
+        )
+      )
+      .catch((error) => {
+        allHerbsPromise = null; // try again next time
+        throw error;
+      });
+  }
+  return allHerbsPromise;
 }
 
-function showError(input, error, message) {
-  error.textContent = message;
-  input.setAttribute("aria-invalid", message ? "true" : "false");
+function fact(herb, label) {
+  return herb.quickFacts?.find((item) => item.label === label)?.value;
 }
 
-// The part inside the herb dialog: a button, or "thanks" if already signed up.
+// One question: the right answer plus three wrong answers taken from other herbs.
+function makeQuestion(herb, others, label, text) {
+  const answer = fact(herb, label);
+  if (!answer) return null;
+
+  let wrong;
+  if (label === "Life cycle") {
+    wrong = ["Annual", "Perennial"].filter((value) => value !== answer);
+  } else {
+    const values = others.map((other) => fact(other, label)).filter(Boolean);
+    wrong = shuffle([...new Set(values)].filter((value) => value !== answer)).slice(0, 3);
+  }
+  if (wrong.length === 0) return null;
+
+  return {
+    text: text.replace("{herb}", herb.name),
+    answer,
+    options: shuffle([answer, ...wrong]),
+    explain: `${herb.name} – ${label}: ${answer}.`,
+  };
+}
+
+function buildQuestions(herb, allHerbs) {
+  const others = allHerbs.filter((other) => other.id !== herb.id);
+  return shuffle([
+    makeQuestion(herb, others, "Life cycle", "How long does {herb} live?"),
+    makeQuestion(herb, others, "Origin", "Where does {herb} come from?"),
+    makeQuestion(herb, others, "Blooms", "When does {herb} bloom?"),
+    makeQuestion(herb, others, "Height", "How tall does {herb} grow?"),
+    makeQuestion(herb, others, "Likes", "What does {herb} like?"),
+  ].filter(Boolean)).slice(0, questionsPerQuiz);
+}
+
+// ----- The button inside the herb dialog -----
+
 function buildInterestSection(herbId, herbName) {
   const section = make("section", "herb-dialog-section interest");
   section.append(make("h3", "", `Interested in ${herbName}?`));
+  section.append(make("p", "interest-intro", `Test what you learned about ${herbName} in a 5-question quiz.`));
 
-  const signedUpAs = readSignups()[herbId];
-  if (signedUpAs) {
-    section.append(thanks(signedUpAs, herbName));
-    return section;
-  }
+  const best = readScores()[herbId];
+  const bestLine = make("p", "interest-best", best >= 0 ? `Your best score: ${best} / ${questionsPerQuiz}` : "");
+  bestLine.setAttribute("role", "status");
 
-  const openButton = make("button", "favorite-button", "✉ I'm interested");
+  const openButton = make("button", "favorite-button", "🌿 I'm interested");
   openButton.type = "button";
   openButton.addEventListener("click", () => {
-    openInterestPopup(herbId, herbName, (name) => {
-      // After sending: replace the button with the thank-you line,
-      // and give keyboard focus back to the herb dialog.
-      openButton.replaceWith(thanks(name, herbName));
-      document.querySelector("#herb-dialog-close")?.focus();
+    openQuizPopup(herbId, herbName, () => {
+      const score = readScores()[herbId];
+      bestLine.textContent = score >= 0 ? `Your best score: ${score} / ${questionsPerQuiz}` : "";
     });
   });
-  section.append(openButton);
+
+  section.append(openButton, bestLine);
   return section;
 }
 
-// The pop-up window with the form. It uses the HTML <dialog> element:
-// showModal() keeps keyboard focus inside it and Escape closes it.
-function openInterestPopup(herbId, herbName, onSent) {
+// ----- The quiz pop-up -----
+// It uses the HTML <dialog> element: showModal() keeps keyboard focus inside
+// it and Escape closes it.
+
+function openQuizPopup(herbId, herbName, onFinished) {
   const popupWindow = document.createElement("dialog");
-  popupWindow.className = "interest-popup";
-  popupWindow.setAttribute("aria-labelledby", "interest-title");
+  popupWindow.className = "interest-popup quiz-popup";
+  popupWindow.setAttribute("aria-labelledby", "quiz-title");
+
+  // Take the colours of the herb dialog behind it.
+  const herbDialog = document.querySelector("#herb-dialog");
+  if (herbDialog) {
+    const colours = getComputedStyle(herbDialog);
+    ["--herb-accent", "--herb-dark", "--herb-light"].forEach((property) => {
+      const value = colours.getPropertyValue(property).trim();
+      if (value) popupWindow.style.setProperty(property, value);
+    });
+  }
 
   const closeButton = make("button", "modal-close", "×");
   closeButton.type = "button";
-  closeButton.setAttribute("aria-label", "Close the form");
+  closeButton.setAttribute("aria-label", "Close the quiz");
   closeButton.addEventListener("click", () => popupWindow.close());
 
-  const title = make("h2", "", `Interested in ${herbName}?`);
-  title.id = "interest-title";
+  const title = make("h2", "", `${herbName} quiz`);
+  title.id = "quiz-title";
 
-  popupWindow.append(
-    closeButton,
-    title,
-    make("p", "", "Leave your name and email and we will tell you when it grows in the garden.")
-  );
+  const body = make("div", "quiz-body");
+  popupWindow.append(closeButton, title, body);
 
   // Escape closes only this pop-up, not the herb dialog behind it.
   popupWindow.addEventListener("keydown", (event) => {
@@ -118,102 +176,143 @@ function openInterestPopup(herbId, herbName, onSent) {
   popupWindow.addEventListener("click", (event) => {
     if (event.target === popupWindow) popupWindow.close();
   });
-  popupWindow.addEventListener("close", () => popupWindow.remove());
+  popupWindow.addEventListener("close", () => {
+    popupWindow.remove();
+    document.querySelector("#herb-dialog-close")?.focus();
+  });
 
-  const form = document.createElement("form");
-  form.noValidate = true; // we check the fields ourselves, with friendly messages
-
-  const name = field("interest-name", "Name", "text");
-  const email = field("interest-email", "Email", "email");
-
-  const consentWrapper = make("div", "interest-field interest-consent");
-  const consent = document.createElement("input");
-  consent.type = "checkbox";
-  consent.id = "interest-consent";
-  const consentLabel = make("label", "", "I agree that the group may email me about this herb.");
-  consentLabel.htmlFor = consent.id;
-  const consentError = make("p", "interest-error");
-  consentError.id = "interest-consent-error";
-  consent.setAttribute("aria-describedby", consentError.id);
-  consentWrapper.append(consent, consentLabel, consentError);
-
-  const button = make("button", "favorite-button", "Send");
-  button.type = "submit";
-
-  const status = make("p", "interest-status");
-  status.setAttribute("role", "status");
-
-  form.append(name.wrapper, email.wrapper, consentWrapper, button, status);
-  popupWindow.append(form);
   document.body.append(popupWindow);
   popupWindow.showModal();
-  name.input.focus();
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    status.textContent = "";
+  body.append(make("p", "", "Loading your quiz…"));
 
-    // 1. Check the input.
-    const nameValue = name.input.value.trim();
-    const emailValue = email.input.value.trim();
-    const emailLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
-
-    showError(name.input, name.error, nameValue ? "" : "Please enter your name.");
-    showError(email.input, email.error, emailLooksValid ? "" : "Please enter a valid email, e.g. anna@example.com.");
-    showError(consent, consentError, consent.checked ? "" : "Please tick the box so we may email you.");
-
-    const firstProblem = [name.input, email.input, consent]
-      .find((input) => input.getAttribute("aria-invalid") === "true");
-    if (firstProblem) {
-      firstProblem.focus();
-      return;
-    }
-
-    // 2. Is the form connected to Formspree yet?
-    if (!/^[A-Za-z0-9]+$/.test(formspreeId) || formspreeId === "YOUR_FORM_ID") {
-      status.textContent = "This form is not connected yet. The group still has to add its Formspree form ID.";
-      return;
-    }
-
-    // 3. Send it to the server.
-    button.disabled = true;
-    button.textContent = "Sending…";
-
-    try {
-      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          herb: herbName,
-          name: nameValue,
-          email: emailValue,
-          _subject: `New interest in ${herbName}`,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Formspree answered ${response.status}`);
+  loadAllHerbs()
+    .then((allHerbs) => {
+      const herb = allHerbs.find((item) => item.id === herbId);
+      const questions = herb ? buildQuestions(herb, allHerbs) : [];
+      if (questions.length === 0) {
+        body.replaceChildren(make("p", "", "There is no quiz for this herb yet."));
+        return;
       }
-
-      saveSignup(herbId, nameValue);
-      popupWindow.close();
-      onSent(nameValue);
-      // Confirmation as a pop-up notification (from community.js), if available.
-      if (typeof popup === "function") {
-        popup(`✓ Thanks, ${nameValue}! You're on the list for ${herbName}.`);
-      }
-    } catch (error) {
-      console.error("Could not send the interest form.", error);
-      status.textContent = "Sorry, your message could not be sent. Please try again later.";
-      button.disabled = false;
-      button.textContent = "Send";
-      button.focus();
-    }
-  });
+      showQuestion(body, popupWindow, herbName, questions, 0, 0, herbId, onFinished);
+    })
+    .catch((error) => {
+      console.error("Could not load the quiz data.", error);
+      body.replaceChildren(make("p", "interest-error", "Sorry, the quiz could not be loaded. Please try again later."));
+    });
 }
 
-// app.js builds the herb dialog. Watch it, and add the form once for each
-// new herb (each new dialog has a new favorite button).
+function showQuestion(body, popupWindow, herbName, questions, index, score, herbId, onFinished) {
+  const question = questions[index];
+
+  const progress = make("p", "quiz-progress", `Question ${index + 1} of ${questions.length}`);
+  const bar = make("div", "quiz-bar");
+  const barFill = make("span", "");
+  barFill.style.width = `${(index / questions.length) * 100}%`;
+  bar.append(barFill);
+  bar.setAttribute("aria-hidden", "true");
+
+  const heading = make("h3", "quiz-question", question.text);
+
+  const optionList = make("div", "quiz-options");
+  const feedback = make("p", "quiz-feedback");
+  feedback.setAttribute("role", "status");
+  const nextButton = make("button", "favorite-button quiz-next", index + 1 === questions.length ? "See my score" : "Next question");
+  nextButton.type = "button";
+  nextButton.hidden = true;
+
+  let gotItRight = false;
+
+  question.options.forEach((option) => {
+    const button = make("button", "quiz-option", option);
+    button.type = "button";
+    button.addEventListener("click", () => {
+      gotItRight = option === question.answer;
+
+      // Lock the answers and show which one was right.
+      optionList.querySelectorAll("button").forEach((other) => {
+        other.disabled = true;
+        if (other.textContent === question.answer) other.classList.add("is-correct");
+      });
+      if (!gotItRight) button.classList.add("is-wrong");
+
+      feedback.textContent = gotItRight ? `✓ Correct! ${question.explain}` : `✗ Not quite. ${question.explain}`;
+      feedback.className = `quiz-feedback ${gotItRight ? "is-correct" : "is-wrong"}`;
+      barFill.style.width = `${((index + 1) / questions.length) * 100}%`;
+      nextButton.hidden = false;
+      nextButton.focus();
+    });
+    optionList.append(button);
+  });
+
+  nextButton.addEventListener("click", () => {
+    const newScore = score + (gotItRight ? 1 : 0);
+    if (index + 1 < questions.length) {
+      showQuestion(body, popupWindow, herbName, questions, index + 1, newScore, herbId, onFinished);
+    } else {
+      saveScore(herbId, newScore);
+      onFinished();
+      showResult(body, popupWindow, herbName, questions.length, newScore, herbId, onFinished);
+    }
+  });
+
+  body.replaceChildren(progress, bar, heading, optionList, feedback, nextButton);
+  optionList.firstElementChild?.focus();
+}
+
+function showResult(body, popupWindow, herbName, total, score, herbId, onFinished) {
+  const percent = Math.round((score / total) * 100);
+
+  let icon = "🌱";
+  let heading = "Try again!";
+  let message = `Read the ${herbName} card once more, then give it another go. You can do it!`;
+  if (score === total) {
+    icon = "🏆";
+    heading = "Congratulations!";
+    message = `Perfect score! You are a ${herbName} expert.`;
+  } else if (percent >= 60) {
+    icon = "🌿";
+    heading = "Well done!";
+    message = `You know ${herbName} quite well. One more try for a perfect score?`;
+  }
+
+  const badge = make("div", "quiz-badge", icon);
+  badge.setAttribute("aria-hidden", "true");
+  const resultHeading = make("h3", "quiz-result-heading", heading);
+  const scoreLine = make("p", "quiz-score", `${score} / ${total}`);
+  const rate = make("p", "quiz-rate", `${percent}% correct`);
+  const text = make("p", "", message);
+
+  const actions = make("div", "quiz-actions");
+  const againButton = make("button", "favorite-button", "Try again");
+  againButton.type = "button";
+  againButton.addEventListener("click", () => {
+    body.replaceChildren(make("p", "", "Loading your quiz…"));
+    loadAllHerbs().then((allHerbs) => {
+      const herb = allHerbs.find((item) => item.id === herbId);
+      const questions = herb ? buildQuestions(herb, allHerbs) : [];
+      if (questions.length > 0) {
+        showQuestion(body, popupWindow, herbName, questions, 0, 0, herbId, onFinished);
+      }
+    });
+  });
+  const backButton = make("button", "favorite-button", `Back to ${herbName}`);
+  backButton.type = "button";
+  backButton.addEventListener("click", () => popupWindow.close());
+  const exploreButton = make("button", "favorite-button", "Explore more herbs");
+  exploreButton.type = "button";
+  exploreButton.addEventListener("click", () => {
+    popupWindow.close();
+    document.querySelector("#herb-dialog-close")?.click();
+  });
+  actions.append(againButton, backButton, exploreButton);
+
+  body.replaceChildren(badge, resultHeading, scoreLine, rate, text, actions);
+  againButton.focus();
+}
+
+// app.js builds the herb dialog. Watch it, and add the quiz button once for
+// each new herb (each new dialog has a new favorite button).
 const interestDialogArea = document.querySelector("#herb-dialog-content");
 
 if (interestDialogArea) {
