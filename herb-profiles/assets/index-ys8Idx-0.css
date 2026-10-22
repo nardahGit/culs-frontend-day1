@@ -205,11 +205,11 @@
   flex: 0 0 auto;
   width: 2.5rem;
   height: 2.5rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--herb-dark);
   border-radius: 50%;
-  background: #fff;
-  color: var(--ink);
-  font: inherit;
+  background: var(--herb-light);
+  color: var(--herb-dark);
+  /*font: inherit;*/
   font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
@@ -677,7 +677,7 @@ section {
 }
 
 .herb-dialog-image {
-  width: 100%;
+  width: 50%;
   height: auto;
   margin-top: 1rem;
   border-radius: var(--radius);
@@ -894,7 +894,7 @@ video {
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
