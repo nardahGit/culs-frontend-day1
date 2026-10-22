@@ -6,7 +6,11 @@
   "life": "perennial",
   "description": "An evergreen shrub with needle-like leaves and a strong, piney smell. Small blue flowers appear in spring.",
     "image": { "src": "images/rosemary.jpg", "alt": "Rosemary branches with thin needle-like leaves" },
-  "quickFacts": [
+  "theme": [
+    {"color-light":"#DCE7EF"},
+    {"color-dark":"#587D98"}
+    ],
+    "quickFacts": [
     {
       "label": "Life cycle",
       "value": "Perennial"

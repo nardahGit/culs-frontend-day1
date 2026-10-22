@@ -6,6 +6,10 @@
   "life": "perennial",
   "description": "A tiny, low shrub with small grey-green leaves and a warm, earthy smell. Its pink flowers are full of bees.",
     "image": { "src": "images/thyme.jpg", "alt": "A low bush of thyme with tiny leaves" },
+   "theme": [
+    {"color-light":"#F2E7CE"},
+    {"color-dark":"##B18A4A"}
+    ],
   "quickFacts": [
     {
       "label": "Life cycle",

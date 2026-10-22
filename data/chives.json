@@ -6,7 +6,11 @@
   "life": "perennial",
   "description": "Thin, hollow, grass-like leaves with a mild onion taste. Round purple flowers appear in early summer.",
     "image": { "src": "images/chives.jpg", "alt": "Green chives with round purple flowers" },
-  "quickFacts": [
+  "theme": [
+    {"color-light":"#E5E0F4"},
+    {"color-dark":"#8170B0"}
+    ],
+    "quickFacts": [
     {
       "label": "Life cycle",
       "value": "Perennial"

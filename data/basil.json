@@ -6,6 +6,10 @@
   "life": "annual",
   "description": "A soft, bright-green herb with a sweet, peppery smell. It loves warmth and is the heart of Italian summer cooking.",
        "image": { "src": "images/basil.jpg", "alt": "A pot of fresh green basil leaves" },
+  "theme": [
+    {"color-light":"#DDEBD5"},
+    {"color-dark":"#648B58"}
+    ],
   "quickFacts": [
     {
       "label": "Life cycle",
@@ -61,3 +65,4 @@
     }
   ]
 }
+

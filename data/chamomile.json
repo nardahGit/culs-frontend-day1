@@ -6,6 +6,10 @@
   "life": "annual",
   "description": "A delicate plant with small daisy-like flowers, white petals and a yellow centre. The flowers smell a little like apples.",
     "image": { "src": "images/chamomile.jpg", "alt": "Small white chamomile flowers with yellow centres" },
+  "theme": [
+    {"color-light":"#FFF0C9"},
+    {"color-dark":"#C69B36"}
+    ],
   "quickFacts": [
     {
       "label": "Life cycle",

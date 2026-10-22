@@ -6,7 +6,11 @@
   "life": "perennial",
   "description": "A fresh, cool-smelling herb with bright-green toothed leaves. It grows fast and spreads everywhere if you let it.",
     "image": { "src": "images/spearmint.jpg", "alt": "Fresh spearmint leaves with jagged edges" },
-  "quickFacts": [
+   "theme": [
+    {"color-light":"#D9F0E5"},
+    {"color-dark":"#4F9278"}
+    ],
+    "quickFacts": [
     {
       "label": "Life cycle",
       "value": "Perennial"

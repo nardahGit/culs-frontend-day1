@@ -6,7 +6,11 @@
   "life": "perennial",
   "description": "A small shrub with soft, grey-green, velvety leaves and a strong, savoury smell. Purple-blue flowers appear in early summer.",
     "image": { "src": "images/sage.jpg", "alt": "Soft grey-green sage leaves" },
-  "quickFacts": [
+ "theme": [
+    {"color-light":"#DCE3D6"},
+    {"color-dark":"#74866A"}
+    ],
+    "quickFacts": [
     {
       "label": "Life cycle",
       "value": "Perennial"
