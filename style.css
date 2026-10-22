@@ -802,12 +802,13 @@ footer .community-count {
   margin-top: 0.5rem;
 }
 
-/* ===== Burger menu for small screens (by Beqa) ===== */
+/* ===== Burger menu (☰) on every screen size (by Beqa) ===== */
 
 .menu-toggle {
-  display: none;
+  display: block;
   width: 2.75rem;
   height: 2.75rem;
+  margin-left: auto;
   padding: 0.55rem;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: var(--radius-sm);
@@ -824,34 +825,49 @@ footer .community-count {
   background: currentColor;
 }
 
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
 .menu-toggle:focus-visible {
   outline: 3px solid white;
   outline-offset: 2px;
 }
 
-@media (max-width: 64rem) {
-  .site-header {
-    column-gap: 0.75rem;
+/* The links are hidden until the ☰ button is clicked. */
+#site-navigation {
+  display: none;
+}
+
+/* Open menu: a panel under the button, on the right. */
+#site-navigation.is-open {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+  min-width: 15rem;
+  margin: 0;
+  padding: 0.5rem;
+  background: var(--leaf-dark);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+#site-navigation ul {
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#site-navigation a {
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Phones: the open menu uses the full width. */
+@media (max-width: 40rem) {
+  #site-navigation.is-open {
+    right: 0;
+    left: 0;
+    border-radius: 0;
   }
-
-  .menu-toggle {
-    display: block;
-    margin-left: auto;
-  }
-
-  nav {
-    display: none;
-    flex-basis: 100%;
-    margin: 0;
-  }
-
-  nav.is-open { display: block; }
-
-  nav ul {
-    flex-direction: column;
-    gap: 0.25rem;
-    padding-top: 0.5rem;
-  }
-
-  nav a { padding: 0.65rem 0.85rem; }
 }
