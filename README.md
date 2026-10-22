@@ -12,9 +12,11 @@ good for and how to grow them. Made by group **Herbs-Lavender** for
 |---|---|
 | Meaningful content | 8 herbs (basil, spearmint, rosemary, thyme, lavender, sage, chamomile, chives), each with a description, 5 quick facts, uses, growing tips and a photo; lavender also has plant parts and a video |
 | Intentional visual design | one colour theme per herb, responsive layout (CSS grid and flexbox), visible keyboard focus |
-| Interaction | a search box filters the herbs while you type; herb cards open a details dialog; close with × or Escape; favorites button |
-| Application state | the search text and the list of matching herbs; the open herb lives in the address (`index.html#basil`); favorites are kept in a JavaScript array and saved in `localStorage` |
+| Interaction | a search box filters the herbs while you type; All / Annual / Perennial filter buttons; a "🎲 Herb of the day" button opens the same herb for everyone that day; herb cards open a details dialog; close with × or Escape; favorites button |
+| Application state | the search text, the chosen filter and the list of matching herbs; the open herb lives in the address (`index.html#basil`); favorites are kept in a JavaScript array and saved in `localStorage` |
 | Data | one JSON file per herb in `data/`, one shared format (see below) |
+| Shared data | `community.js` counts visits and how many people liked each herb, stored on a free online counter service ([Abacus](https://abacus.jasoncameron.dev)) and read with `fetch()`; if the service is down, the counts are simply not shown; a pop-up notification welcomes each visitor ("You are visitor number 57") and confirms each like ("♥ Basil now has 12 likes") |
+| Form + sending data | each herb dialog has an "✉ I'm interested" button that opens a pop-up form (name, email, consent) with friendly validation messages; it is sent with `fetch()` (POST) to [Formspree](https://formspree.io), so the emails arrive privately in the group's inbox and are never shown on the site |
 | Network communication | `fetch()` loads `data/herbs.json` and `data/<id>.json` from our server, and asks Wikipedia's public API (`/api/rest_v1/page/summary/`) for a short summary of each herb; friendly messages when a herb is unknown, a file is missing, there is no server or Wikipedia cannot be reached |
 | Accessibility | works with the keyboard alone (Tab, Enter, Escape); the dialog keeps focus inside and returns it to the card; images have alt text |
 | Git history | every change is a commit with a message; see the commit list on GitHub |
@@ -45,6 +47,9 @@ Do not open `index.html` by double-clicking it: `fetch()` needs a web server.
 index.html       the only page; JavaScript renders everything else
 style.css        the design
 app.js           rendering, search, #hash router, fetch, dialog, favorites, Wikipedia summary
+community.js     shared visit and like counts (online counter service)
+interest.js      "I'm interested" pop-up form, sent to Formspree
+extras.js        All / Annual / Perennial filter and "Herb of the day"
 data/            herbs.json (the list) + one <id>.json per herb
 images/          logo and herb photos
 videos/          lavender video
@@ -139,3 +144,15 @@ Example (shortened):
 
 To add a herb: create `data/<id>.json` in this format and add an entry with the
 same `id` to `data/herbs.json`.
+
+## Interest form (Formspree)
+
+`interest.js` sends the form to Formspree. To connect it:
+
+1. Create a free account at <https://formspree.io> and click **New form**.
+2. Copy the form ID (the part after `/f/` in the form's address, e.g. `xyzabcd`).
+3. In `interest.js`, replace `YOUR_FORM_ID` on line 9 with that ID.
+
+Until then, the form checks the fields and says that it is not connected yet.
+Names and emails are personal data: they are only sent to the group's inbox
+after the visitor ticks the consent box, and they are never shown on the site.

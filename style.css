@@ -572,3 +572,232 @@ video {
   padding-top: 0.5rem;
   border-top: 1px solid var(--line);
 }
+
+/* ===== Community counts (visits and likes) ===== */
+
+.community-count {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+footer .community-count {
+  color: inherit;
+}
+
+/* ===== "Interested in this herb?" form ===== */
+
+.interest form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 28rem;
+}
+
+.interest-field label {
+  display: block;
+  font-weight: 600;
+}
+
+.interest-field input[type="text"],
+.interest-field input[type="email"] {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.interest-field input:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+.interest-field input[aria-invalid="true"] {
+  border-color: #b3261e;
+}
+
+.interest-consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.5rem;
+  align-items: start;
+}
+
+.interest-consent input {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.2rem;
+}
+
+.interest-consent label {
+  font-weight: 400;
+}
+
+.interest-consent .interest-error {
+  grid-column: 1 / -1;
+}
+
+.interest-error {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: #b3261e;
+}
+
+.interest-error:empty {
+  display: none;
+}
+
+.interest form button {
+  justify-self: start;
+}
+
+.interest-thanks {
+  font-weight: 600;
+  color: var(--leaf-dark);
+}
+
+/* ===== Pop-up notifications ===== */
+
+.popups {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30; /* above the herb dialog */
+  display: grid;
+  gap: 0.5rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+}
+
+.popup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.75rem 0.75rem 1rem;
+  color: #fff;
+  background: var(--leaf-dark);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  animation: popup-in 0.3s ease-out;
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.popup p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.popup-close {
+  margin-left: auto;
+  padding: 0 0.4rem;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.popup-close:focus-visible {
+  outline: 2px solid #fff;
+  border-radius: var(--radius-sm);
+}
+
+.popup-hide {
+  opacity: 0;
+  transform: translateY(0.5rem);
+}
+
+@keyframes popup-in {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup { animation: none; transition: none; }
+}
+
+/* ===== Interest form pop-up window ===== */
+
+.interest-popup {
+  width: min(30rem, calc(100vw - 2rem));
+  padding: 1.5rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.interest-popup::backdrop {
+  background: rgba(20, 27, 21, 0.6);
+}
+
+.interest-popup h2 {
+  margin: 0 2.5rem 0.5rem 0;
+  font-size: 1.4rem;
+  color: var(--leaf-dark);
+}
+
+.interest-popup form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.interest-popup form button[type="submit"] {
+  justify-self: start;
+}
+
+.interest-popup .modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* ===== Filter: All / Annual / Perennial ===== */
+
+.life-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+}
+
+.life-filter button {
+  padding: 0.4rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--leaf-dark);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.life-filter button:hover {
+  border-color: var(--leaf);
+}
+
+.life-filter button[aria-pressed="true"] {
+  color: #fff;
+  background: var(--leaf);
+  border-color: var(--leaf);
+}
+
+.life-filter button:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+/* Cards hidden by the filter */
+#herbs-list > li[hidden] {
+  display: none;
+}
+
+/* ===== Herb of the day ===== */
+
+.herb-of-the-day {
+  margin-top: 0.5rem;
+}
