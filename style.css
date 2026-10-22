@@ -869,3 +869,25 @@ footer .community-count {
     border-radius: var(--radius-sm);
   }
 }
+
+/* ===== Herb dialog design (by Monika) ===== */
+
+/* Close button in the herb's own colours. */
+.herb-dialog .modal-close {
+  border-color: var(--herb-dark);
+  background: var(--herb-light);
+  color: var(--herb-dark);
+}
+
+/* Wider screens: a smaller photo and the growing tips in 2 columns.
+   Phones keep the full-width photo and 1 column, so nothing gets too small. */
+@media (min-width: 40rem) {
+  .herb-dialog-image {
+    display: block;
+    width: 50%;
+  }
+
+  .herb-dialog .tips {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
