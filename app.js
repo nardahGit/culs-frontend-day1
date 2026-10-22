@@ -204,6 +204,46 @@ function renderHerbDetails(herb) {
     });
     return list;
   });
+
+  addWikipediaSummary(herb);
+}
+
+// Network communication with an outside server: ask Wikipedia's public API
+// for a short summary of the herb, using its Latin name.
+async function addWikipediaSummary(herb) {
+  const section = element("section", "herb-dialog-section wiki-summary", "");
+  const text = element("p", "", "Loading a summary from Wikipedia…");
+  section.append(element("h3", "", "From Wikipedia"), text);
+  dialogContent.append(section);
+
+  try {
+    const title = encodeURIComponent(herb.latin.replaceAll(" ", "_"));
+    const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`);
+
+    if (!response.ok) {
+      throw new Error(`Wikipedia answered ${response.status}`);
+    }
+
+    const summary = await response.json();
+
+    // The user may have opened another herb in the meantime.
+    if (!section.isConnected) return;
+
+    text.textContent = summary.extract;
+
+    const link = element("a", "", "Read the full article on Wikipedia");
+    link.href = summary.content_urls.desktop.page;
+    link.target = "_blank";
+    link.rel = "noopener";
+    const linkLine = element("p", "", "");
+    linkLine.append(link);
+    section.append(linkLine);
+  } catch (error) {
+    console.error("Could not load the Wikipedia summary.", error);
+    if (section.isConnected) {
+      text.textContent = "The Wikipedia summary could not be loaded right now. Are you offline?";
+    }
+  }
 }
 
 async function openHerbDialog(id, opener) {
@@ -267,6 +307,31 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeHerbDialog();
 });
 
+// Search: filter the herb cards while the user types (react to input).
+const search = document.querySelector("#herb-search");
+let allHerbs = [];
+
+function renderHerbList() {
+  const query = (search?.value || "").trim().toLowerCase();
+  const matches = allHerbs.filter(
+    (herb) =>
+      herb.name.toLowerCase().includes(query) ||
+      herb.latin.toLowerCase().includes(query)
+  );
+
+  list.replaceChildren(...matches.map(card));
+
+  if (!query) {
+    count.textContent = `${allHerbs.length} herbs grow here.`;
+  } else if (matches.length) {
+    count.textContent = `${matches.length} of ${allHerbs.length} herbs match "${search.value.trim()}".`;
+  } else {
+    count.textContent = `No herb matches "${search.value.trim()}". Try another name.`;
+  }
+}
+
+search?.addEventListener("input", renderHerbList);
+
 async function show() {
   // Run the herb list only on pages that contain it.
   if (!list || !count) {
@@ -277,8 +342,8 @@ async function show() {
     const herbs = await loadHerbs();
 
     herbsById = new Map(herbs.map((herb) => [herb.id, herb]));
-    list.replaceChildren(...herbs.map(card));
-    count.textContent = `${herbs.length} herbs grow here.`;
+    allHerbs = herbs;
+    renderHerbList();
     renderFavorites();
   } catch (error) {
     console.error(error);

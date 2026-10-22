@@ -35,7 +35,11 @@
 
     <section id="herbs">
       <h2>What grows here</h2>
-      <p class="count">Loading the herbs…</p>
+      <div class="search">
+        <label for="herb-search">Search herbs</label>
+        <input id="herb-search" type="search" placeholder="e.g. mint or Salvia" autocomplete="off">
+      </div>
+      <p class="count" role="status">Loading the herbs…</p>
       <ul id="herbs-list" class="cards"></ul>
     </section>
 

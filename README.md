@@ -1,68 +1,66 @@
 # The Little Herb Garden
 
-A small website for day 1 of **Frontend Development**.
+A small website about eight garden herbs: what they look like, what they are
+good for and how to grow them. Made by group **Herbs-Lavender** for
+*Internet Technologies – Client Side* (CZU Prague, 2026).
 
-It is broken. Your job is to find out why, and to repair it.
+**Live site:** https://nardahgit.github.io/culs-frontend-day1/
 
-## What you need
+## Features
 
-- a GitHub account
-- Git
-- an editor
-- a browser (Firefox recommended)
-- [Node.js](https://nodejs.org/) (the LTS version), which brings `npx`
+| Course requirement | How this project meets it |
+|---|---|
+| Meaningful content | 8 herbs (basil, spearmint, rosemary, thyme, lavender, sage, chamomile, chives), each with a description, 5 quick facts, uses, growing tips and a photo; lavender also has plant parts and a video |
+| Intentional visual design | one colour theme per herb, responsive layout (CSS grid and flexbox), visible keyboard focus |
+| Interaction | a search box filters the herbs while you type; herb cards open a details dialog; close with × or Escape; favorites button |
+| Application state | the search text and the list of matching herbs; the open herb lives in the address (`index.html#basil`); favorites are kept in a JavaScript array and saved in `localStorage` |
+| Data | one JSON file per herb in `data/`, one shared format (see below) |
+| Network communication | `fetch()` loads `data/herbs.json` and `data/<id>.json` from our server, and asks Wikipedia's public API (`/api/rest_v1/page/summary/`) for a short summary of each herb; friendly messages when a herb is unknown, a file is missing, there is no server or Wikipedia cannot be reached |
+| Accessibility | works with the keyboard alone (Tab, Enter, Escape); the dialog keeps focus inside and returns it to the card; images have alt text |
+| Git history | every change is a commit with a message; see the commit list on GitHub |
+| Documentation | this README and `group.md` (who did what) |
 
-## Get your copy
+## Run it locally
 
-1. **Fork** this repository to your GitHub account.
-2. **Clone your fork**, not this repository:
-
-   ```sh
-   git clone https://github.com/<your-name>/culs-frontend-day1.git
-   cd culs-frontend-day1
-   ```
-
-## Run it
-
-Start a small web server in the project folder:
+You need [Node.js](https://nodejs.org/) (LTS). In the project folder:
 
 ```sh
 npx serve
 ```
 
-The first time, `npx` asks whether to install `serve`. Answer `y`.
+Open the address it prints, usually <http://localhost:3000>. Stop it with `Ctrl+C`.
 
-Then open the address it prints, usually <http://localhost:3000>.
-Stop the server with `Ctrl+C`.
+Do not open `index.html` by double-clicking it: `fetch()` needs a web server.
 
-Do not open `index.html` by double-clicking it. A `file://` page is not the Web.
+## Try it
 
-## Your mission
+- `index.html` – the start page with all herbs
+- `index.html#basil` – opens basil (works for every herb id)
+- `index.html#banana` – an unknown herb shows a friendly message
+- **Herb profiles (React)** in the menu – the React version
 
-Something is wrong. Several things, in fact.
-
-1. Inspect before you change anything: the page, the Console, the Network panel, the Inspector.
-2. Pick one problem and find out why it happens.
-3. Fix it, reload, verify.
-4. Commit that one fix, with a message that says what you fixed.
-5. Repeat.
-
-You are done when:
-
-- the Console shows no unexplained errors
-- the Network panel shows no missing files
-- every link on the page goes where it says
-- `git status` is clean, and `git push` has sent your commits to GitHub
-
-## The project
+## Project structure
 
 ```text
-index.html    the page
-style.css     how it looks
-app.js        what it does
-data/         the herbs, as JSON
-images/       the logo and a picture
+index.html       the only page; JavaScript renders everything else
+style.css        the design
+app.js           rendering, search, #hash router, fetch, dialog, favorites, Wikipedia summary
+data/            herbs.json (the list) + one <id>.json per herb
+images/          logo and herb photos
+videos/          lavender video
+react/           React source code (Vite)
+herb-profiles/   the built React version (works without npm)
+group.md         team members and who did what
 ```
+
+## Team
+
+| Member | Main work |
+|---|---|
+| Fiderana Nardah Mamelphina | group management, testing and merging, site restyle, GitHub Pages |
+| Magadeline Ndlovu | JSON data for all herbs and its format, photos, #hash router with `fetch()` and error messages, integration of the dialog and React version |
+| Beqa Davitashvili | lavender page (day 2), herb details dialog, favorites, React version |
+| Monika Tasheva | CSS design |
 
 ## Herb details and favorites
 
