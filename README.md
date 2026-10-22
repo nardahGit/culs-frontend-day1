@@ -117,6 +117,7 @@ Every herb file uses the same format:
 | `quickFacts` | list of `{ "label", "value" }` | yes | always 5 facts: Life cycle, Origin, Blooms, Height, Likes |
 | `uses` | list of `{ "title", "text" }` | yes | what the herb is used for |
 | `growingTips` | list of `{ "title", "text" }` | yes | how to grow it |
+| `theme` | `{ "light", "dark" }` | no | the herb's colours (hex, e.g. `"#ddebd5"`): background and accent lines of its dialog |
 | `image` | `{ "src", "alt" }` | no | a photo; only herbs with a photo have it |
 | `parts` | list of `{ "id", "name", "text" }` | no | plant parts for the explorer drawing (lavender only) |
 | `video` | `{ "src", "caption" }` | no | a short video (lavender only) |

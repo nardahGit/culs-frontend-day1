@@ -802,13 +802,14 @@ footer .community-count {
   margin-top: 0.5rem;
 }
 
-/* ===== Burger menu (☰) on every screen size (by Beqa) ===== */
+/* ===== Burger menu (☰) on small screens (by Beqa) =====
+   Wide screens: the normal links. Narrow screens (under 64rem, about 1024px):
+   the links hide behind the ☰ button. Used by the main page and the React page. */
 
 .menu-toggle {
-  display: block;
+  display: none;
   width: 2.75rem;
   height: 2.75rem;
-  margin-left: auto;
   padding: 0.55rem;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: var(--radius-sm);
@@ -834,40 +835,37 @@ footer .community-count {
   outline-offset: 2px;
 }
 
-/* The links are hidden until the ☰ button is clicked. */
-#site-navigation {
-  display: none;
-}
+@media (max-width: 64rem) {
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
 
-/* Open menu: a panel under the button, on the right. */
-#site-navigation.is-open {
-  display: block;
-  position: absolute;
-  top: 100%;
-  right: 1rem;
-  min-width: 15rem;
-  margin: 0;
-  padding: 0.5rem;
-  background: var(--leaf-dark);
-  border-radius: 0 0 var(--radius) var(--radius);
-  box-shadow: var(--shadow-lg);
-}
+  /* The links are hidden until the ☰ button is clicked. */
+  #site-navigation {
+    display: none;
+  }
 
-#site-navigation ul {
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-#site-navigation a {
-  padding: 0.65rem 0.85rem;
-  border-radius: var(--radius-sm);
-}
-
-/* Phones: the open menu uses the full width. */
-@media (max-width: 40rem) {
+  /* Open menu: a panel under the header. */
   #site-navigation.is-open {
+    display: block;
+    position: absolute;
+    top: 100%;
     right: 0;
     left: 0;
-    border-radius: 0;
+    margin: 0;
+    padding: 0.5rem 1rem 1rem;
+    background: var(--leaf-dark);
+    box-shadow: var(--shadow-lg);
+  }
+
+  #site-navigation ul {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  #site-navigation a {
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-sm);
   }
 }

@@ -118,6 +118,16 @@ function toggleFavorite(id) {
 
 function renderHerbDetails(herb) {
   dialog.dataset.herbTheme = herbThemes[herb.id] || "default";
+
+  // Colours from the herb's JSON (theme by Monika): light background and
+  // accent lines. Text keeps the darker theme colour so it stays readable.
+  if (herb.theme?.light && herb.theme?.dark) {
+    dialog.style.setProperty("--herb-light", herb.theme.light);
+    dialog.style.setProperty("--herb-accent", herb.theme.dark);
+  } else {
+    dialog.style.removeProperty("--herb-light");
+    dialog.style.removeProperty("--herb-accent");
+  }
   dialogContent.replaceChildren();
 
   const heading = element("h2", "", herb.name);

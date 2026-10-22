@@ -183,6 +183,18 @@ function App() {
   const [favorites, setFavorites] = useState(readFavorites);
   const [selectedHerb, setSelectedHerb] = useState(getHerbFromAddress);
   const [search, setSearch] = useState("");
+  // Burger menu (small screens): is the menu open?
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Escape closes the burger menu.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    function closeOnEscape(event) {
+      if (event.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
   const [storageError, setStorageError] = useState("");
   const favoriteHerbs = herbs.filter((herb) => favorites.includes(herb.id));
   const visibleHerbs = herbs.filter((herb) =>
@@ -231,7 +243,26 @@ function App() {
       <header className="site-header">
         <img className="logo" src={logoUrl} alt="" width="48" height="48" />
         <p className="site-name">The Little Herb Garden</p>
-        <nav aria-label="Main navigation">
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
+          aria-controls="site-navigation"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav
+          id="site-navigation"
+          className={menuOpen ? "is-open" : ""}
+          aria-label="Main navigation"
+          onClick={(event) => {
+            if (event.target.closest("a")) setMenuOpen(false);
+          }}
+        >
           <ul>
             <li><a href={`${gardenHome}#herbs`}>Herbs</a></li>
             <li><a href={`${gardenHome}#visit`}>Visit</a></li>

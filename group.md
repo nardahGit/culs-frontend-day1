@@ -22,3 +22,11 @@ Day2 task ( add here your task and specify it like :name+task+specification)
 1.Nardah: managment of the group + test all commit (pull from my forked repo)+ verify workflow + push it to the main repo in final.
 2.  Magadeline Ndlovu: JSON data – data/lavender.json (quick facts, plant parts, uses, growing tips matching levandule.html) + JSON-LD block in levandule.html.
 3. Monika Tasheva: CSS design
+
+
+Day3 + final project tasks (name + task + specification)
+
+1. Fiderana Nardah Mamelphina: group management, site restyle, testing and merging, final push, GitHub Pages.
+2. Magadeline Ndlovu: JSON data for all 8 herbs (data/<id>.json, format documented in README) + photos; JS router (#hash, hashchange, fetch(), friendly errors for unknown herb / missing file / no server); herb search; Wikipedia summary; shared likes and visits (community.js); "I'm interested" pop-up form (interest.js); herb of the day + annual/perennial filter (extras.js); unpacked and connected Beqa's React version; README.
+3. Beqa Davitashvili: herb details dialog, favorites, React version (react/), burger menu (menu.js).
+4. Monika Tasheva: CSS design, colour theme for every herb (theme in data/<id>.json), close-button design of the React herb pop-up.

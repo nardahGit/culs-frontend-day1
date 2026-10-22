@@ -5,6 +5,10 @@
   "family": "Lamiaceae (mint family)",
   "life": "perennial",
   "description": "A silver-green shrub with purple flower spikes that smell calm, sweet and a little bit like soap.",
+  "theme": {
+    "light": "#efe9f7",
+    "dark": "#5b4283"
+  },
   "image": {
     "src": "images/lavender-field.jpg",
     "alt": "A field of lavender in bloom, with purple rows reaching the horizon"

@@ -217,6 +217,13 @@
   outline-offset: 2px;
 }
 
+/* Close button of the herb pop-up in the herb's own colours (design by Monika). */
+.herb-modal .modal-close {
+  border-color: var(--herb-dark);
+  background: var(--herb-light);
+  color: var(--herb-dark);
+}
+
 .herb-modal-intro {
   display: grid;
   gap: 1.25rem;
@@ -252,3 +259,6 @@
 @media (min-width: 40rem) {
   .herb-modal-intro:has(.herb-modal-image) { grid-template-columns: 1fr 1fr; }
 }
+
+/* Footer link must stay readable on the dark green footer. */
+.lavender-page footer a { color: #fff; }
